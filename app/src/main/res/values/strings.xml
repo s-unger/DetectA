@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DetectA</string>
+    <string name="heading1">Hilf mir, dir zu helfen!</string>
+    <string name="content1">Jeden Tag erledigen wir mit unserem Smartphone viele Aufgaben, um unser Leben zu bestreiten. Dabei müssen wir am Handy oft viele Schritte machen, um unser Ziel zu erreichen. Mit deiner Hilfe möchten ich herausfinden, wie wir das verbessern können!</string>
+    <string name="example">Beispiel</string>
+    <string name="examplecontent">Ich bin Sebastian und habe jeden Dienstag einen Termin mit meinem Masterarbeitsbetreuer. Da ich in Augsburg wohne, nehme ich den Zug nach München. Bevor ich losfahre, kaufe ich eine Fahrkarte mit dem DB-Navigator. Ich habe mal ein paar Aktionen des Kaufs für dich aufgezeichnet:</string>
+    <string name="exampledescription">Das sind sehr, sehr viele Schritte, und viele davon mache ich jedes Mal genau gleich.</string>
+    <string name="description">Mit deiner Hilfe möchte ich lernen, wie ich vorhersagen kann, welche Schritte du immer und immer wieder machen musst. Dazu nehme ich die Abläufe deiner Tätigkeiten auf und trainiere damit meine Algorithmen.</string>
+    <string name="calltoaction">Wenn alles klappt, ist das ein großer Schritt</string>
+    <string name="privacy">Datenschutz</string>
+    <string name="privacydescription">Selbstverständlich hast auch du Dinge, die du für dich behalten möchtest. Deswegen kannst du in den Datenschutzeinstellungen auswählen, welche Apps deine Privatangelegenheit sind. Ich werde dann keine Daten über deine Nutzung dieser Apps erhalten.</string>
+    <string name="thankyou">Vielen Dank für deine Hilfe!</string>
+    <string name="sebastian">Sebastian</string>
+    <string name="aboutme">Ich bin Sebastian und studiere an der LMU den Master Mensch-Computer-Interaktion, um zu lernen, wie ich Technik für Menschen machen kann. Neben meinem Studium spiele ich Saxophon und bin sportlich als Boxer aktiv.</string>
+    <string name="accessibility_service_description">This service tracks data for the DetectA user study. You can find more information in the DetectA app.</string>
+</resources>
