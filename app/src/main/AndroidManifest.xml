@@ -12,13 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DetectA"
         tools:targetApi="31">
-        <service android:name=".DetectAService"
+        <service
+            android:name=".DetectAService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:label="DetectAService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
         </service>
 
         <activity
