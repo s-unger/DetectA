@@ -1,18 +1,14 @@
 package de.planetcat.detecta
 
 import android.accessibilityservice.AccessibilityService
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
-import android.os.Environment
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityEvent.*
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileOutputStream
-import java.nio.file.Files
 
 class DetectAService : AccessibilityService() {
 
@@ -73,7 +69,7 @@ class DetectAService : AccessibilityService() {
 
         fun isMajorEvent(event: AccessibilityEvent, previousObjectID:Long, userID:Int, service:AccessibilityService):Boolean {
             if ( event.eventType == TYPE_WINDOW_STATE_CHANGED &&
-                event.className.startsWith(event.packageName) &&
+                event.className.toString().startsWith(event.packageName) &&
                 event.className != activityNameBuffer) {
                 val dataObject = DataObject(activityNameBuffer.toString(), previousObjectID+1, previousObjectID, activityTimeBuffer, pBuffer)
                 Log.w("DetectAService", dataObject.toString())
@@ -93,7 +89,7 @@ class DetectAService : AccessibilityService() {
                         e.printStackTrace()
                     }
                 }
-                activityNameBuffer = event.className
+                activityNameBuffer = event.className.toString()
                 activityTimeBuffer = System.currentTimeMillis()
                 pBuffer = mutableListOf<AccessibilityEvent>()
                 return true
@@ -106,5 +102,4 @@ class DetectAService : AccessibilityService() {
             }
         }
     }
-
 }
