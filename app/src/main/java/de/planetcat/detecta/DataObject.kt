@@ -5,8 +5,8 @@ import android.view.accessibility.AccessibilityEvent
 
 class DataObject(
     private val name: String,
-    private val dataObjectID: Long,
-    private val previousDataObjectID: Long,
+    private val dataObjectID: Int,
+    private val previousDataObjectID: Int,
     private val timestamp: Long, //Achtung! Timestamp springt!
     private val eventList: MutableList<AccessibilityEvent>) {
 
