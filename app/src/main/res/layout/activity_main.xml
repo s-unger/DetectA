@@ -6,14 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"/>
+        app:layout_constraintVertical_bias="1.0">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/sebastian"
+                android:contentDescription="Das bin ich, Basti." />
+            <TextView
+                android:id="@+id/textView"
+                style="@style/p"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="Herzlich Willkommen bei der DetectA Studie für Android. Mein Name ist Basti und ich möchte Dir gerne vorstellen, worum es geht:" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jeden Tag erledigen wir eine Vielzahl sich oft wiederholender Aufgaben mit unserem Smartphone. Wir organisieren unser Leben, kommunizieren mit unseren Mitmenschen, navigieren uns durch die Welt und konsumieren interessante Medieninhalte. Dabei verschwenden wir oft eine Menge Zeit für die immer wieder gleichen Schritte, um unser Ziel zu erreichen. " />
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mithilfe dieser Studie möchte ich herausfinden, ob es möglich ist, die sich immer wiederholenden Schritte herauszufinden, um sie zu automatisieren, damit wir unsere Zeit mit dem wirklich wichtigen verbringen." />
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wenn ich verstehe, welche Entscheidungen Du regelmäßig triffst und welche Schritte du immer gleich machst, kann ich folgendes programmieren:" />
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unnötige Schritte überspringen:" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_margin="5dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/ueberspringen"
+                android:contentDescription="Schritte überspringen" />
+    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
