@@ -54,13 +54,13 @@
                 android:layout_height="wrap_content"
                 android:text="Mithilfe dieser Studie möchte ich herausfinden, ob es möglich ist, die sich immer wiederholenden Schritte herauszufinden, um sie zu automatisieren, damit wir unsere Zeit mit dem wirklich wichtigen verbringen." />
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView4"
                 style="@style/p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Wenn ich verstehe, welche Entscheidungen Du regelmäßig triffst und welche Schritte du immer gleich machst, kann ich folgendes programmieren:" />
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView5"
                 style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +73,154 @@
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/ueberspringen"
                 android:contentDescription="Schritte überspringen" />
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Schnellwahl häufiger Entscheidungen:" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_margin="5dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/schnellwahl"
+                android:contentDescription="Schritte überspringen" />
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Damit das möglich ist, benötige ich Beispieldaten, um meine Algorithmen zu entwickeln. Mit dieser App möchte ich diese Beispieldaten gewinnen. Dazu erfasse ich folgendes:" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Aktionen" />
+                <TextView
+                    android:id="@+id/textView9"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Die Aktionen deines Android-Alltags. Ich benötige sie, damit mein Algorithmus verstehen kann, welche davon überflüssig oder besonders entscheidungsrelevant sind." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Uhrzeit" />
+                <TextView
+                    android:id="@+id/textView11"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Zu anderen Zeiten sind dir andere Dinge wichtig. Die Uhrzeit hilft meinem Algorithmus, das passend zuzuordnen." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView12"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Ort und Netzwerkinfo" />
+                <TextView
+                    android:id="@+id/textView13"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Du suchst den nächsten Bus von der Arbeit nach Hause? Mit Ort und Netzwerkinformationen (In welchem WLAN) kann mein Algorithmus genau das vereinfachen." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView14"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Aktivität" />
+                <TextView
+                    android:id="@+id/textView15"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Sportlicher Smartphonenutzer? Autofahrer? In Bewegung nutzen wir das Handy anders. Die Aktivität erfasst bestimmte Bewegungsformen und hilft dem Algorithmus, das zu unterscheiden." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView16"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Lautsprecher und Alarm" />
+                <TextView
+                    android:id="@+id/textView17"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Smartphonenutzung im Meeting? Dann ist das Gerät stumm. In der Früh? Dann klingelte gerade ein Wecker. Das hilft mir, deine Entscheidungen zuzuordnen." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/textView18"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="So kannst du an der Studie teilnehmen:" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView19"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Service aktivieren" />
+                <TextView
+                    android:id="@+id/textView20"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Drücke den folgenden Knopf. Es öffnen sich die Accessibility-Einstellungen. Klicke dort auf DetectAService, und aktiviere dann den Schalter. Kehre dann zur DetectA-App zurück." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Button
+                android:id="@+id/serviceaktivieren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="Service aktivieren" />
     </LinearLayout>
     </ScrollView>
 

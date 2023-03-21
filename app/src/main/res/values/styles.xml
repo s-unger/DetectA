@@ -8,16 +8,17 @@
         <item name="android:color">#000000</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:hyphenationFrequency">full</item>
     </style>
     <style name="subtitle" parent="p">
-        <item name="android:layout_marginTop">2pt</item>
-        <item name="android:layout_marginLeft">5pt</item>
-        <item name="android:layout_marginRight">5pt</item>
-        <item name="android:layout_marginBottom">2pt</item>
+        <item name="android:layout_marginTop">5pt</item>
         <item name="android:color">#000000</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">20sp</item>
+    </style>
+    <style name="listheading" parent="subtitle">
+        <item name="android:textAlignment">viewStart</item>
     </style>
 </resources>
