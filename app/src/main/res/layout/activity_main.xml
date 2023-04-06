@@ -221,6 +221,33 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:text="Service aktivieren" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView21"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Position aktivieren" />
+                <TextView
+                    android:id="@+id/textView22"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Drücke den folgenden Knopf und aktiviere die ungefähre Position." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Button
+                android:id="@+id/positionaktivieren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="Position aktivieren" />
     </LinearLayout>
     </ScrollView>
 

@@ -13,7 +13,7 @@ import com.google.gson.Gson
 
 class DetectAService : AccessibilityService() {
 
-    var eventBuffer = EventBuffer(this)
+    lateinit var eventBuffer: EventBuffer
 
     fun getDataObjectId():Int {
         val sharedPreferences = this.getSharedPreferences("preferences", Activity.MODE_PRIVATE)
@@ -31,6 +31,7 @@ class DetectAService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+        this.eventBuffer = EventBuffer(this)
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
@@ -50,16 +51,17 @@ class DetectAService : AccessibilityService() {
     }
 
     class EventBuffer(private val detectAService: Context) {
-        var pBuffer:MutableList<AccessibilityEvent> = mutableListOf<AccessibilityEvent>()
+        var pBuffer:MutableList<AccessibilityEvent> = mutableListOf()
         var activityNameBuffer:CharSequence = "Start"
         var activityTimeBuffer:Long = System.currentTimeMillis()
-        var dataObjectList:MutableList<DataObject> = mutableListOf<DataObject>()
+        var dataObjectList:MutableList<DataObject> = mutableListOf()
+        val locationProvider = LocationProvider(detectAService)
 
         fun isMajorEvent(event: AccessibilityEvent, doi: Int):Boolean {
             if ( event.eventType == TYPE_WINDOW_STATE_CHANGED &&
                 event.className.toString().startsWith(event.packageName) &&
                 event.className != activityNameBuffer) {
-                val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer)
+                val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName())
                 Log.w("DetectAService", dataObject.toString())
                 dataObjectList.add(dataObject)
                 if (dataObjectList.size > 30) {
