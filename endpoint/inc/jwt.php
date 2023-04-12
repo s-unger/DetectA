@@ -1,6 +1,6 @@
 <?php
 
-function generate_jwt($headers, $payload) {
+function generate_jwt($headers, $payload, $secret) {
 	$headers_encoded = base64url_encode(json_encode($headers));
 	
 	$payload_encoded = base64url_encode(json_encode($payload));
@@ -13,7 +13,7 @@ function generate_jwt($headers, $payload) {
 	return $jwt;
 }
 
-function get_id_and_check_jwt($jwt) {
+function get_id_and_check_jwt($jwt, $secret) {
 	// split the jwt
 	$tokenParts = explode('.', $jwt);
 	if (count($tokenParts) < 3) {

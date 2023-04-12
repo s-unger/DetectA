@@ -65,7 +65,7 @@ class DetectAService : AccessibilityService() {
                 val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName(), snapshot.getSnapshot())
                 Log.w("DetectAService", dataObject.toString())
                 dataObjectList.add(dataObject)
-                if (dataObjectList.size > 30) {
+                if (dataObjectList.size > 10) {
                     val uploadData = Data.Builder()
                         .putString("data", Gson().toJson(dataObjectList))
                         .build()
@@ -79,6 +79,7 @@ class DetectAService : AccessibilityService() {
                         .build()
                     WorkManager.getInstance(detectAService).enqueue(uploadWorkRequest)
                     dataObjectList = mutableListOf<DataObject>()
+                    Log.w("DetectAService", "Upload Queued.")
                 }
                 activityNameBuffer = event.className.toString()
                 activityTimeBuffer = System.currentTimeMillis()
