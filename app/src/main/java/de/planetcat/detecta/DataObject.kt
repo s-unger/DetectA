@@ -11,11 +11,12 @@ class DataObject(
     private val timestamp: Long, //Achtung! Timestamp springt!
     private val eventList: MutableList<AccessibilityEvent>,
     private val location: Location?,
-    private val network: String) {
+    private val network: String,
+    private val snapshot: String) {
 
     override fun toString ():String {
         var string = "-----DataObject: " + this.name + "-----\nDataObjectID: " + dataObjectID + "\nPreviousDataObjectID: " +
-                previousDataObjectID + "\nTimeStamp: " + timestamp.toString() + "\nLocation: " + location.toString() + "\nNetwork: " + network
+                previousDataObjectID + "\nTimeStamp: " + timestamp.toString() + "\nLocation: " + location.toString() + "\nNetwork: " + network + "\nActivities: " + snapshot
         for (event in this.eventList) {
             string += "\n" + event.toString()
         }

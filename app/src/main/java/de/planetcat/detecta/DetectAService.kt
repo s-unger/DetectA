@@ -56,12 +56,13 @@ class DetectAService : AccessibilityService() {
         var activityTimeBuffer:Long = System.currentTimeMillis()
         var dataObjectList:MutableList<DataObject> = mutableListOf()
         val locationProvider = LocationProvider(detectAService)
+        val snapshot = Snapshot(detectAService)
 
         fun isMajorEvent(event: AccessibilityEvent, doi: Int):Boolean {
             if ( event.eventType == TYPE_WINDOW_STATE_CHANGED &&
                 event.className.toString().startsWith(event.packageName) &&
                 event.className != activityNameBuffer) {
-                val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName())
+                val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName(), snapshot.getSnapshot())
                 Log.w("DetectAService", dataObject.toString())
                 dataObjectList.add(dataObject)
                 if (dataObjectList.size > 30) {
