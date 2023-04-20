@@ -22,4 +22,8 @@ class DataObject(
         }
         return string
     }
+
+    fun shorten():DataObject {
+        return DataObject(this.name+"[SHORT]", this.dataObjectID, this.previousDataObjectID, this.timestamp, mutableListOf<AccessibilityEvent>(), this.location, this.network, this.snapshot)
+    }
 }

@@ -54,7 +54,6 @@ class DetectAService : AccessibilityService() {
         var pBuffer:MutableList<AccessibilityEvent> = mutableListOf()
         var activityNameBuffer:CharSequence = "Start"
         var activityTimeBuffer:Long = System.currentTimeMillis()
-        var dataObjectList:MutableList<DataObject> = mutableListOf()
         val locationProvider = LocationProvider(detectAService)
         val snapshot = Snapshot(detectAService)
 
@@ -64,23 +63,26 @@ class DetectAService : AccessibilityService() {
                 event.className != activityNameBuffer) {
                 val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName(), snapshot.getSnapshot())
                 Log.w("DetectAService", dataObject.toString())
-                dataObjectList.add(dataObject)
-                if (dataObjectList.size > 10) {
-                    val uploadData = Data.Builder()
-                        .putString("data", Gson().toJson(dataObjectList))
+                val uploadData = try {
+                    Data.Builder()
+                        .putString("data", Gson().toJson(dataObject))
                         .build()
-                    val uploadDataConstraints = Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.UNMETERED)
-                        .setRequiresBatteryNotLow(true)
+                } catch (e: java.lang.IllegalStateException) {
+                    Log.w("Shortening Entry.", dataObject.toString())
+                    Data.Builder()
+                        .putString("data", Gson().toJson(dataObject.shorten()))
                         .build()
-                    val uploadWorkRequest = OneTimeWorkRequestBuilder<DataUploader>()
-                        .setInputData(uploadData)
-                        .setConstraints(uploadDataConstraints)
-                        .build()
-                    WorkManager.getInstance(detectAService).enqueue(uploadWorkRequest)
-                    dataObjectList = mutableListOf<DataObject>()
-                    Log.w("DetectAService", "Upload Queued.")
                 }
+                val uploadDataConstraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.UNMETERED)
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<DataUploader>()
+                    .setInputData(uploadData)
+                    .setConstraints(uploadDataConstraints)
+                    .build()
+                WorkManager.getInstance(detectAService).enqueue(uploadWorkRequest)
+                Log.w("DetectAService", "Upload Queued.")
                 activityNameBuffer = event.className.toString()
                 activityTimeBuffer = System.currentTimeMillis()
                 pBuffer = mutableListOf<AccessibilityEvent>()

@@ -36,8 +36,9 @@ class LocationProvider (val context: Context) {
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                TODO("Handle Location not available.")
+                //TODO("Handle Location not available.")
                 //INTENT => MainActivity => Notification auslösen
+                return null
             }
             fusedLocationClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { location: Location? ->
                 currentLocation = location
