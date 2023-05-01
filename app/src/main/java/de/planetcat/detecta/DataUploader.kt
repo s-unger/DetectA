@@ -60,6 +60,7 @@ class DataUploader(appContext: Context, workerParams: WorkerParameters):
             } else {
                 val responseCode = dataConnection.getResponseCode()
                 Log.w("DetectAService", "Response Code: $responseCode")
+                Log.w("DetectAService", dataConnection.responseMessage)
                 return UploadStatus.FAILED
             }
 

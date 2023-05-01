@@ -2,18 +2,12 @@ package de.planetcat.detecta
 
 import android.accessibilityservice.AccessibilityService
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityEvent.*
-import androidx.work.*
-import com.google.gson.Gson
 
 
 class DetectAService : AccessibilityService() {
-
-    lateinit var eventBuffer: EventBuffer
 
     fun getDataObjectId():Int {
         val sharedPreferences = this.getSharedPreferences("preferences", Activity.MODE_PRIVATE)
@@ -31,7 +25,6 @@ class DetectAService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        this.eventBuffer = EventBuffer(this)
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
@@ -44,56 +37,7 @@ class DetectAService : AccessibilityService() {
 
     override fun onAccessibilityEvent(p0: AccessibilityEvent?) {
         if (p0 != null) {
-            if (eventBuffer.isMajorEvent(p0, getDataObjectId())) {
-                increaseDataObjectId()
-            }
-        }
-    }
-
-    class EventBuffer(private val detectAService: Context) {
-        var pBuffer:MutableList<AccessibilityEvent> = mutableListOf()
-        var activityNameBuffer:CharSequence = "Start"
-        var activityTimeBuffer:Long = System.currentTimeMillis()
-        val locationProvider = LocationProvider(detectAService)
-        val snapshot = Snapshot(detectAService)
-
-        fun isMajorEvent(event: AccessibilityEvent, doi: Int):Boolean {
-            if ( event.eventType == TYPE_WINDOW_STATE_CHANGED &&
-                event.className.toString().startsWith(event.packageName) &&
-                event.className != activityNameBuffer) {
-                val dataObject = DataObject(activityNameBuffer.toString(), doi+1, doi, activityTimeBuffer, pBuffer, locationProvider.getLocation(), NetworkProvider(detectAService).getNetworkName(), snapshot.getSnapshot())
-                Log.w("DetectAService", dataObject.toString())
-                val uploadData = try {
-                    Data.Builder()
-                        .putString("data", Gson().toJson(dataObject))
-                        .build()
-                } catch (e: java.lang.IllegalStateException) {
-                    Log.w("Shortening Entry.", dataObject.toString())
-                    Data.Builder()
-                        .putString("data", Gson().toJson(dataObject.shorten()))
-                        .build()
-                }
-                val uploadDataConstraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.UNMETERED)
-                    .setRequiresBatteryNotLow(true)
-                    .build()
-                val uploadWorkRequest = OneTimeWorkRequestBuilder<DataUploader>()
-                    .setInputData(uploadData)
-                    .setConstraints(uploadDataConstraints)
-                    .build()
-                WorkManager.getInstance(detectAService).enqueue(uploadWorkRequest)
-                Log.w("DetectAService", "Upload Queued.")
-                activityNameBuffer = event.className.toString()
-                activityTimeBuffer = System.currentTimeMillis()
-                pBuffer = mutableListOf<AccessibilityEvent>()
-                return true
-            } else {
-                if (event.eventType > 0) {
-                    //Log.w("DetectAService", "Added following Event to Buffer: " + event.toString())
-                    pBuffer.add(event)
-                }
-                return false
-            }
+            Logger.log(p0.toString())
         }
     }
 }
