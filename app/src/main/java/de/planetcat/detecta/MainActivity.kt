@@ -5,7 +5,6 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.pm.ServiceInfo
 import android.os.Build
@@ -14,13 +13,9 @@ import android.provider.Settings
 import android.util.Log
 import android.view.accessibility.AccessibilityManager
 import android.widget.Button
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,13 +45,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (isAccessibilityServiceEnabled(this, DetectAService::class.java)) {
-            findViewById<Button>(R.id.serviceaktivieren).isEnabled = false
-            findViewById<Button>(R.id.serviceaktivieren).text = "Bereits aktiviert."
+            val view = findViewById<Button>(R.id.serviceaktivieren)
+            view.isEnabled = false
+            view.text = getString(R.string.alreadyactivated)
         }
         if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, ACCESS_BACKGROUND_LOCATION) == PERMISSION_GRANTED) {
-            findViewById<Button>(R.id.positionaktivieren).isEnabled = false
-            findViewById<Button>(R.id.positionaktivieren).text = "Bereits aktiviert."
+            val view = findViewById<Button>(R.id.positionaktivieren)
+            view.isEnabled = false
+            view.text = getString(R.string.alreadyactivated)
         }
     }
 

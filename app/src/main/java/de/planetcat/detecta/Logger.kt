@@ -27,6 +27,7 @@ object Logger {
 
     fun log(data: String) {
         val logline = "\n" + linenumber.toString() + " | " + System.currentTimeMillis().toString() + " | " + data
+        Log.w("DetectAService", logline)
         val combined = content + logline
         try {
             Data.Builder()

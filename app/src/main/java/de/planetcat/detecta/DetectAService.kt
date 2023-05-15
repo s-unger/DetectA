@@ -2,7 +2,6 @@ package de.planetcat.detecta
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
-import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
@@ -20,18 +19,12 @@ class DetectAService : AccessibilityService() {
                 AccessibilityEvent.TYPE_VIEW_CLICKED or
                 AccessibilityEvent.TYPE_VIEW_LONG_CLICKED or
                 AccessibilityEvent.TYPE_VIEW_SELECTED or
-                AccessibilityEvent.TYPE_VIEW_FOCUSED or
+                AccessibilityEvent.TYPE_VIEW_SCROLLED or
+                AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED or
+                AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED or
                 AccessibilityEvent.TYPE_VIEW_FOCUSED or
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or
-                AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED or
-                AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED or
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED or
-                AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED or
-                AccessibilityEvent.TYPE_ANNOUNCEMENT or
-                AccessibilityEvent.TYPE_GESTURE_DETECTION_START or
-                AccessibilityEvent.TYPE_GESTURE_DETECTION_END or
-                AccessibilityEvent.TYPE_WINDOWS_CHANGED or
-                AccessibilityEvent.TYPE_SPEECH_STATE_CHANGE
+                AccessibilityEvent.TYPE_ANNOUNCEMENT
         }
 
         this.serviceInfo = info
@@ -47,26 +40,173 @@ class DetectAService : AccessibilityService() {
         Log.w("DetectAService", "Interrupt Happened")
     }
 
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        var message = "AE"
+        if (event != null) {
+            when (event.eventType) {
+                AccessibilityEvent.TYPE_VIEW_CLICKED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val text = source?.text?.toString()
+                    val contentDescription = source?.contentDescription?.toString()
 
-    /*
-    Message-Format:
-    AE [EventType] t[EventTime] p[PackageName] a[Action]*
-    * Only if Action is not zero.
-     */
-    override fun onAccessibilityEvent(p0: AccessibilityEvent?) {
-        var message = "AE "
-        if (p0 != null) {
-            if (p0.eventType == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED) {
-                message += (p0.eventType.toString()+" t"+p0.eventTime.toString() + " p"+p0.packageName)
-                if (p0.action != 0) {
-                    message += (" a")
+                    message += " VC P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!text.isNullOrEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
                 }
+                AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val text = source?.text?.toString()
+                    val contentDescription = source?.contentDescription?.toString()
 
+                    message += " LC P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!text.isNullOrEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
+                }
+                AccessibilityEvent.TYPE_VIEW_SELECTED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val text = source?.text?.toString()
+                    val contentDescription = source?.contentDescription?.toString()
+                    val isSelected = source?.isSelected
 
-            } else {
-                message += p0.toString()
+                    message += " VS P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!text.isNullOrEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
+                    if (isSelected != null) {
+                        message += " I:$isSelected"
+                    }
+                }
+                AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val scrollX = event.scrollX
+                    val scrollY = event.scrollY
+                    val maxScrollX = event.maxScrollX
+                    val maxScrollY = event.maxScrollY
+
+                    message += " VS P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    message += " SX:$scrollX SY:$scrollY MSX:$maxScrollX MSY:$maxScrollY"
+                }
+                AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val text = source?.text?.toString()
+                    val contentDescription = source?.contentDescription?.toString()
+
+                    message += " VCC P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!text.isNullOrEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
+                }
+                AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val beforeText = event.beforeText?.toString()
+                    val afterText = event.text.toString()
+
+                    message += " VTC P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!beforeText.isNullOrEmpty()) {
+                        message += " BT:$beforeText"
+                    }
+                    if (afterText.isNotEmpty()) {
+                        message += " AT:$afterText"
+                    }
+                }
+                AccessibilityEvent.TYPE_VIEW_FOCUSED -> {
+                    val source = event.source
+                    val packageName = source?.packageName
+                    val className = source?.className
+                    val viewId = source?.viewIdResourceName
+                    val text = source?.text?.toString()
+                    val contentDescription = source?.contentDescription?.toString()
+
+                    message += " VF P:$packageName C:$className"
+                    if (!viewId.isNullOrEmpty()) {
+                        message += " V:$viewId"
+                    }
+                    if (!text.isNullOrEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
+                }
+                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                    val packageName = event.packageName?.toString()
+                    val className = event.className?.toString()
+                    val text = event.text.toString()
+                    val contentDescription = event.contentDescription?.toString()
+
+                    message += " WSC"
+                    message += " P:$packageName C:$className"
+                    if (text.isNotEmpty()) {
+                        message += " T:$text"
+                    }
+                    if (!contentDescription.isNullOrEmpty()) {
+                        message += " CD:$contentDescription"
+                    }
+                }
+                AccessibilityEvent.TYPE_ANNOUNCEMENT -> {
+                    val packageName = event.packageName?.toString()
+                    val text = event.text.toString()
+
+                    message += " A P:$packageName"
+                    if (text.isNotEmpty()) {
+                        message += " T:$text"
+                    }
+                }
+                else -> {
+                    message += " ET:${event.eventType}"
+                }
             }
+            Logger.log(message)
         }
-        Logger.log(message)
     }
 }

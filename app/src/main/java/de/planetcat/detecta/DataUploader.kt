@@ -16,17 +16,22 @@ class DataUploader(appContext: Context, workerParams: WorkerParameters):
         // Do the work here--in this case, upload the images.
         val data = inputData.getString("data")
         if (data != null) {
-            val uploadStatus = uploadDataset(data)
-            if (uploadStatus == UploadStatus.FAILED) {
-                return Result.retry()
-            } else if (uploadStatus == UploadStatus.FORBIDDEN) {
-                val sharedPreferences = this.applicationContext.getSharedPreferences("preferences", Activity.MODE_PRIVATE)
-                val oldtoken = sharedPreferences.getString("token", "")
-                with (sharedPreferences.edit()) {
-                    putString("token", "")
-                    apply()
+            try {
+                val uploadStatus = uploadDataset(data)
+                if (uploadStatus == UploadStatus.FAILED) {
+                    return Result.retry()
+                } else if (uploadStatus == UploadStatus.FORBIDDEN) {
+                    val sharedPreferences = this.applicationContext.getSharedPreferences("preferences", Activity.MODE_PRIVATE)
+                    val oldtoken = sharedPreferences.getString("token", "")
+                    with (sharedPreferences.edit()) {
+                        putString("token", "")
+                        apply()
+                    }
+                    uploadDataset("TOKEN CHANGE DUE TO FORBIDDEN. OLD TOKEN WAS $oldtoken.")
+                    return Result.retry()
                 }
-                uploadDataset("TOKEN CHANGE DUE TO FORBIDDEN. OLD TOKEN WAS $oldtoken.")
+            } catch (e: java.net.ConnectException) {
+                Log.w("DetectAService", "UploadException:\n$e")
                 return Result.retry()
             }
         }

@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DetectA"
         tools:targetApi="31">
-
         <service
             android:name=".DetectAService"
             android:exported="true"
