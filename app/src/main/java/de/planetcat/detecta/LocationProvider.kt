@@ -15,7 +15,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_BALANCED_POWER_ACCURACY
 
 
-class LocationProvider (val context: Context) {
+class LocationProvider (val context: Context, val logger: Logger) {
     var location: Location? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var googlePlayAvailable = true
@@ -39,7 +39,7 @@ class LocationProvider (val context: Context) {
                 fusedLocationClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { currentLocation: Location? ->
                     if (isNewLocation(currentLocation)) {
                         location = currentLocation
-                        Logger.log("LO "+currentLocation.toString())
+                        logger.log("LO "+currentLocation.toString())
                     }
                 }
             }

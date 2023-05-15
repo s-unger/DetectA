@@ -1,22 +1,22 @@
 package de.planetcat.detecta
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import androidx.work.*
-import de.planetcat.detecta
 
 
-object Logger {
-    var content: String
-    var linenumber = 0
+class Logger (private val context: Context) {
+    private lateinit var content: String
+    private var linenumber = 0
 
-    init{
+    fun init() {
         content = "[" + getPackageId().toString() + "]"
         linenumber = 0
     }
 
     fun getPackageId():Int {
-        val sharedPreferences = detecta.getAppContext().getSharedPreferences("preferences", Activity.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("preferences", Activity.MODE_PRIVATE)
         val packageId = sharedPreferences.getInt("pid", 0)
         with (sharedPreferences.edit()) {
             putInt("pid", (packageId+1))
@@ -47,7 +47,7 @@ object Logger {
                 .setInputData(uploadData)
                 .setConstraints(uploadDataConstraints)
                 .build()
-            WorkManager.getInstance(detecta.getAppContext()).enqueue(uploadWorkRequest)
+            WorkManager.getInstance(context).enqueue(uploadWorkRequest)
             Log.w("DetectAService", "Upload Queued.")
             Log.w("DetectAService", content)
             content = "[" + getPackageId().toString() + "]"

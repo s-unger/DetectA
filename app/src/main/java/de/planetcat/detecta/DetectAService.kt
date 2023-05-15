@@ -5,14 +5,21 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class DetectAService : AccessibilityService() {
 
+    private lateinit var logger: Logger
     private lateinit var locationProvider: LocationProvider
     private lateinit var networkProvider: NetworkProvider
+    private lateinit var snapshotProvider: SnapshotProvider
 
     override fun onServiceConnected() {
+        this.logger = Logger(this)
+        this.logger.init()
 
         val info = AccessibilityServiceInfo()
         info.apply {
@@ -32,8 +39,9 @@ class DetectAService : AccessibilityService() {
 
         this.serviceInfo = info
 
-        locationProvider = LocationProvider(this)
-        networkProvider = NetworkProvider(this)
+        locationProvider = LocationProvider(this, logger)
+        networkProvider = NetworkProvider(this, logger)
+        snapshotProvider = SnapshotProvider(this, logger)
 
     }
 
@@ -213,12 +221,21 @@ class DetectAService : AccessibilityService() {
                     message += " ET:${event.eventType}"
                 }
             }
-            Logger.log(message)
+            logger.log(message)
         }
     }
 
+    private var isCoroutineRunning = false
+
     private fun logMeta () {
-        locationProvider.log()
-        networkProvider.log()
+        if (!isCoroutineRunning) {
+            isCoroutineRunning = true
+            CoroutineScope(Dispatchers.IO).launch {
+                locationProvider.log()
+                networkProvider.log()
+                snapshotProvider.log()
+                isCoroutineRunning = false
+            }
+        }
     }
 }
