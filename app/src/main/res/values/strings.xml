@@ -13,4 +13,5 @@
     <string name="sebastian">Sebastian</string>
     <string name="aboutme">Ich bin Sebastian und studiere an der LMU den Master Mensch-Computer-Interaktion, um zu lernen, wie ich Technik für Menschen machen kann. Neben meinem Studium spiele ich Saxophon und bin sportlich als Boxer aktiv.</string>
     <string name="accessibility_service_description">This service tracks data for the DetectA user study. You can find more information in the DetectA app.</string>
+    <string name="alreadyactivated">Bereits aktiviert.</string>
 </resources>
