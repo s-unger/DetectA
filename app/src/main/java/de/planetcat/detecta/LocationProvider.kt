@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.location.component1
+import androidx.core.location.component2
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -14,37 +16,48 @@ import com.google.android.gms.location.Priority.PRIORITY_BALANCED_POWER_ACCURACY
 
 
 class LocationProvider (val context: Context) {
-    var currentLocation: Location? = null
+    var location: Location? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    var googlePlayNotAvailable = false
+    private var googlePlayAvailable = true
 
     init {
         Log.w("Context: ", context.toString())
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) != ConnectionResult.SUCCESS) {
-            googlePlayNotAvailable = true
+            googlePlayAvailable = false
         } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         }
     }
 
-    fun getLocation(): Location? {
-        if (googlePlayNotAvailable){
-            return null
-        } else {
+    fun log() {
+        if (googlePlayAvailable){
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
-                //TODO("Handle Location not available.")
-                //INTENT => MainActivity => Notification auslösen
-                return null
+                fusedLocationClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { currentLocation: Location? ->
+                    if (isNewLocation(currentLocation)) {
+                        location = currentLocation
+                        Logger.log("LO "+currentLocation.toString())
+                    }
+                }
             }
-            fusedLocationClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { location: Location? ->
-                currentLocation = location
-            }
-            return currentLocation
         }
+    }
+
+    private fun isNewLocation(currentLocation: Location?): Boolean {
+        val location = this.location
+        if (currentLocation != null) {
+            return if (location != null) {
+                !(currentLocation.component1() == location.component1() &&
+                        currentLocation.component2() == location.component2() &&
+                        currentLocation.altitude == location.altitude)
+            } else {
+                true
+            }
+        }
+        return false
     }
 
 }

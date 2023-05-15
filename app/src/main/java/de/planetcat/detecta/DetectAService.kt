@@ -9,6 +9,8 @@ import android.view.accessibility.AccessibilityEvent
 
 class DetectAService : AccessibilityService() {
 
+    lateinit var locationProvider: LocationProvider
+
     override fun onServiceConnected() {
 
         val info = AccessibilityServiceInfo()
@@ -28,6 +30,8 @@ class DetectAService : AccessibilityService() {
         }
 
         this.serviceInfo = info
+
+        locationProvider = LocationProvider(this)
 
     }
 
@@ -208,5 +212,10 @@ class DetectAService : AccessibilityService() {
             }
             Logger.log(message)
         }
+        logMeta()
+    }
+
+    private fun logMeta () {
+        locationProvider.log()
     }
 }
