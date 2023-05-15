@@ -9,22 +9,38 @@ import android.net.wifi.WifiManager
 
 class NetworkProvider (val context: Context) {
 
-    fun getNetworkName(): String {
-        val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
-        val currentNetwork = connectivityManager.activeNetwork ?: return "DISCONNECTED"
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(currentNetwork) ?: return "DISCONNECTED"
-        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-            return "CELLULAR"
-        } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-            val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            val wifiInfo = wifiManager.connectionInfo
-            if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-                return wifiInfo.getSSID();
-            } else {
-                return "WIFI"
-            }
-        } else {
-            return "OTHER"
+    data class NetworkInformation(var networkCellular: String, var networkWifi: String)
+    var networkInformation = NetworkInformation("UNKNOWN", "UNKNOWN")
+
+    fun log() {
+        val currentNetwork = getNetworkStrings()
+        if (networkInformation.networkWifi != currentNetwork.networkWifi ||
+            networkInformation.networkCellular != currentNetwork.networkCellular) {
+            Logger.log("NW ${currentNetwork.networkCellular} ${currentNetwork.networkWifi}")
+            networkInformation.networkCellular = currentNetwork.networkCellular
+            networkInformation.networkWifi = currentNetwork.networkWifi
         }
+    }
+
+    private fun getNetworkStrings(): NetworkInformation {
+        val networkStrings = NetworkInformation("DISCONNECTED", "DISCONNECTED")
+        val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        val currentNetwork = connectivityManager.activeNetwork ?: return networkStrings
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(currentNetwork) ?: return networkStrings
+
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            networkStrings.networkCellular = "CELLULAR"
+        }
+
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            @Suppress("DEPRECATION") val wifiInfo = wifiManager.connectionInfo
+            if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
+                networkStrings.networkWifi = wifiInfo.ssid
+            } else {
+                networkStrings.networkWifi = "CONNECTING"
+            }
+        }
+        return networkStrings
     }
 }
