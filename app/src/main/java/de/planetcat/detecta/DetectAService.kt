@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -231,9 +232,13 @@ class DetectAService : AccessibilityService() {
         if (!isCoroutineRunning) {
             isCoroutineRunning = true
             CoroutineScope(Dispatchers.IO).launch {
+                delay(1000L)
                 locationProvider.log()
+                delay(2000L)
                 networkProvider.log()
+                delay(2000L)
                 snapshotProvider.log()
+                delay(10000L)
                 isCoroutineRunning = false
             }
         }

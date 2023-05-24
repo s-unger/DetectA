@@ -26,7 +26,13 @@ class Logger (private val context: Context) {
     }
 
     fun log(data: String) {
-        val logline = "\n" + linenumber.toString() + " | " + System.currentTimeMillis().toString() + " | " + data
+        val logline =
+            if (data.length > 500) {
+                "\n" + linenumber.toString() + " | " + System.currentTimeMillis()
+                    .toString() + " | " + data.substring(0, 500) + "(SHO)"
+            } else {
+                "\n" + linenumber.toString() + " | " + System.currentTimeMillis().toString() + " | " + data
+            }
         Log.w("DetectAService", logline)
         val combined = content + logline
         try {
@@ -52,6 +58,8 @@ class Logger (private val context: Context) {
             Log.w("DetectAService", content)
             content = "[" + getPackageId().toString() + "]"
             linenumber = 0
+            content += logline
+            linenumber++
         }
     }
 
