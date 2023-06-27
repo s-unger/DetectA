@@ -240,8 +240,7 @@ class DetectAService : AccessibilityService() {
                 delay(2000L)
                 networkProvider.log()
                 delay(2000L)
-                snapshotProvider.log() //NOTE: Disabled as there are some serious problems using this API for my case.
-                //If there is somewhen any reason to re-enable, think about re-adding the API-Key to the AndroidManifest.
+                snapshotProvider.log()
                 delay(10000L)
                 isCoroutineRunning = false
             }
