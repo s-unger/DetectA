@@ -248,6 +248,33 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:text="Position aktivieren" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+                <TextView
+                    android:id="@+id/textView23"
+                    style="@style/listheading"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Activity aktivieren" />
+                <TextView
+                    android:id="@+id/textView24"
+                    style="@style/p"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Drücke den folgenden Knopf und aktiviere die Activity." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Button
+                android:id="@+id/activityaktivieren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="Activity aktivieren" />
     </LinearLayout>
     </ScrollView>
 

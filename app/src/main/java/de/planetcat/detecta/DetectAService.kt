@@ -17,6 +17,7 @@ class DetectAService : AccessibilityService() {
     private lateinit var locationProvider: LocationProvider
     private lateinit var networkProvider: NetworkProvider
     private lateinit var snapshotProvider: SnapshotProvider
+    private lateinit var intentProvider: IntentProvider
 
     override fun onServiceConnected() {
         this.logger = Logger(this)
@@ -43,11 +44,13 @@ class DetectAService : AccessibilityService() {
         locationProvider = LocationProvider(this, logger)
         networkProvider = NetworkProvider(this, logger)
         snapshotProvider = SnapshotProvider(this, logger)
+        intentProvider = IntentProvider(this, logger)
 
     }
 
 
     override fun onUnbind(intent: Intent?): Boolean {
+        intentProvider.deinit()
         return super.onUnbind(intent)
     }
 
@@ -237,7 +240,7 @@ class DetectAService : AccessibilityService() {
                 delay(2000L)
                 networkProvider.log()
                 delay(2000L)
-                //snapshotProvider.log() NOTE: Disabled as there are some serious problems using this API for my case.
+                snapshotProvider.log() //NOTE: Disabled as there are some serious problems using this API for my case.
                 //If there is somewhen any reason to re-enable, think about re-adding the API-Key to the AndroidManifest.
                 delay(10000L)
                 isCoroutineRunning = false

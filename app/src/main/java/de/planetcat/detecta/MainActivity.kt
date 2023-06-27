@@ -1,6 +1,8 @@
 package de.planetcat.detecta
 
-import android.Manifest.permission.*
+import android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACTIVITY_RECOGNITION
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
@@ -40,6 +42,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+
+        findViewById<Button>(R.id.activityaktivieren)
+            .setOnClickListener {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(ACTIVITY_RECOGNITION),
+                    0)
+
+            }
     }
 
     override fun onResume() {
@@ -52,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, ACCESS_BACKGROUND_LOCATION) == PERMISSION_GRANTED) {
             val view = findViewById<Button>(R.id.positionaktivieren)
+            view.isEnabled = false
+            view.text = getString(R.string.alreadyactivated)
+        }
+        if (ContextCompat.checkSelfPermission(this, ACTIVITY_RECOGNITION) == PERMISSION_GRANTED) {
+            val view = findViewById<Button>(R.id.activityaktivieren)
             view.isEnabled = false
             view.text = getString(R.string.alreadyactivated)
         }
