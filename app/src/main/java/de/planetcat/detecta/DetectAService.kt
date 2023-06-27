@@ -43,8 +43,8 @@ class DetectAService : AccessibilityService() {
 
         locationProvider = LocationProvider(this, logger)
         networkProvider = NetworkProvider(this, logger)
-        intentProvider = IntentProvider(this, logger)
         snapshotProvider = SnapshotProvider(this, logger)
+        intentProvider = IntentProvider(this, logger)
 
     }
 
@@ -240,7 +240,8 @@ class DetectAService : AccessibilityService() {
                 delay(2000L)
                 networkProvider.log()
                 delay(2000L)
-                //snapshotProvider.log() //Note: Disabled due to new implementation on change.
+                snapshotProvider.log() //NOTE: Disabled as there are some serious problems using this API for my case.
+                //If there is somewhen any reason to re-enable, think about re-adding the API-Key to the AndroidManifest.
                 delay(10000L)
                 isCoroutineRunning = false
             }
